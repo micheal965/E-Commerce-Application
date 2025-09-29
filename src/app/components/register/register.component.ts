@@ -1,7 +1,8 @@
 import { Component, ElementRef, inject, ViewChild, viewChild } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -10,18 +11,20 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
-
   private readonly _authService = inject(AuthService);
+  private readonly _formBuilder = inject(FormBuilder);
+  private readonly _router = inject(Router);
   msgError: string = '';
+  msgSuccess: string = '';
   isLoading: boolean = false;
 
-  registerForm: FormGroup = new FormGroup({
-    name: new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(15)]),
-    email: new FormControl(null, [Validators.required, Validators.email,]),
-    password: new FormControl(null, [Validators.required, Validators.pattern(/^\w{6,}$/)]),
-    rePassword: new FormControl(null),
-    phone: new FormControl(null, [Validators.required, Validators.pattern(/^01[0125][0-9]{8}$/)])
-  }, this.confirmPassword)
+  registerForm: FormGroup = this._formBuilder.group({
+    name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
+    email: [null, [Validators.required, Validators.email]],
+    password: [null, [Validators.required, Validators.pattern(/^\w{6,}$/)]],
+    rePassword: [null],
+    phone: [null, [Validators.required, Validators.pattern(/^01[0125][0-9]{8}$/)]]
+  }, { validators: this.confirmPassword });
 
   confirmPassword(g: AbstractControl) {
     return g.get('password')?.value === g.get('rePassword')?.value ? null : { mismatch: true };
@@ -33,16 +36,21 @@ export class RegisterComponent {
       this._authService.setRegisterForm(this.registerForm.value).subscribe(
         {
           next: (res) => {
-            //action res message success => login
-            console.log(res);
             this.isLoading = false;
+            if (res.message == 'success') {
+              this.msgSuccess = 'Registration completed successfully! Redirecting you to login in 2 seconds...';
+              setTimeout(() => {
+                this._router.navigate(['./login']);
+              }, 2000);
+            }
           },
           error: (err: HttpErrorResponse) => {
-            // err => show error html user
             this.msgError = err.error.message;
             this.isLoading = false;
           }
         });
+    } else {
+      this.registerForm.markAllAsTouched();
     }
   }
 }

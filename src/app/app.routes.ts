@@ -9,23 +9,25 @@ import { ProductComponent } from './components/product/product.component';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { BrandsComponent } from './components/brands/brands.component';
 import { CartComponent } from './components/cart/cart.component';
+import { authGuard } from './core/guards/auth.guard';
+import { guestGuard } from './core/guards/guest.guard';
 
 export const routes: Routes = [
     {
-        path: '', component: AuthLayoutComponent, children: [
+        path: '', component: AuthLayoutComponent, canActivate: [guestGuard], children: [
             { path: '', redirectTo: "login", pathMatch: 'full' },
-            { path: 'login', component: LoginComponent },
-            { path: 'register', component: RegisterComponent }
+            { path: 'login', component: LoginComponent, title: 'Login' },
+            { path: 'register', component: RegisterComponent, title: 'Register' }
         ]
     },
     {
-        path: '', component: BlankLayoutComponent, children: [
+        path: '', component: BlankLayoutComponent, canActivate: [authGuard], children: [
             { path: '', redirectTo: "home", pathMatch: 'full' },
-            { path: 'home', component: HomeComponent },
-            { path: 'products', component: ProductComponent },
-            { path: 'categories', component: CategoriesComponent },
-            { path: 'brands', component: BrandsComponent },
-            { path: 'cart', component: CartComponent }
+            { path: 'home', component: HomeComponent, title: 'Home' },
+            { path: 'products', component: ProductComponent, title: 'Products' },
+            { path: 'categories', component: CategoriesComponent, title: 'Categories' },
+            { path: 'brands', component: BrandsComponent, title: 'Brands' },
+            { path: 'cart', component: CartComponent, title: 'Cart' }
         ]
     },
     { path: '**', component: NotfoundComponent }
