@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { jwtDecode } from "jwt-decode";
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -10,6 +11,7 @@ import { jwtDecode } from "jwt-decode";
 })
 export class AuthService {
   private readonly _httpClient = inject(HttpClient);
+  private readonly _router = inject(Router);
   userData: any = null;
 
   setRegisterForm(data: object): Observable<any> {
@@ -24,5 +26,11 @@ export class AuthService {
     let token: string = localStorage.getItem('token')!;
     if (token !== null)
       this.userData = jwtDecode(token);
+  }
+
+  Logout(): void {
+    localStorage.removeItem('token');
+    this.userData = null;
+    this._router.navigate(['/login']);
   }
 }

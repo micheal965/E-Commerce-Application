@@ -30,12 +30,19 @@ export class LoginComponent {
       this._authService.setLoginForm(this.loginForm.value).subscribe({
         next: (res) => {
           this.isLoading = false;
+          this.msgError = '';
           if (res.message == 'success') {
-            this.msgSuccess = 'Login successful! Redirecting you to home in 2 seconds...';
+            let seconds: number = 2;
+            this.msgSuccess = `Login successful! Redirecting you to home in ${seconds} seconds...`;
             localStorage.setItem('token', res.token);
             this._authService.saveUserData();
-            setTimeout(() => {
-              this._router.navigate(['/home']);
+            const interval = setInterval(() => {
+              seconds--;
+              this.msgSuccess = `Login successful! Redirecting you to home in ${seconds} seconds...`;
+              if (seconds === 0) {
+                clearInterval(interval);
+                this._router.navigate(['/home']);
+              }
             }, 2000);
           }
         },

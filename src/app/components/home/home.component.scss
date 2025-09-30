@@ -1,0 +1,26 @@
+.title {
+    border-bottom: 2px solid #008ECC;
+}
+
+.fixed-size{
+    height: 300px;
+}
+
+.card {
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.04);
+    border: 1px solid #008ECC;
+}
+
+.btn-add {
+    transform: translateY(120%);
+    transition: transform .5s ease;
+}
+
+.card:hover .btn-add {
+    transform: translate(0);
+}

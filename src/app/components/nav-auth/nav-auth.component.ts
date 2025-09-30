@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from "@angular/router";
+import { AuthService } from '../../core/services/auth.service';
+import { Component, inject } from "@angular/core";
 
 @Component({
   selector: 'app-nav-auth',
@@ -9,5 +10,4 @@ import { RouterLink, RouterLinkActive } from "@angular/router";
   styleUrl: './nav-auth.component.scss'
 })
 export class NavAuthComponent {
-
 }

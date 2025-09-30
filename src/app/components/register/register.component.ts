@@ -37,10 +37,17 @@ export class RegisterComponent {
         {
           next: (res) => {
             this.isLoading = false;
+            this.msgError = '';
             if (res.message == 'success') {
-              this.msgSuccess = 'Registration completed successfully! Redirecting you to login in 2 seconds...';
-              setTimeout(() => {
-                this._router.navigate(['./login']);
+              let seconds: number = 2;
+              this.msgSuccess = `Registration completed successfully! Redirecting you to login in ${seconds} seconds...`;
+              const interval = setInterval(() => {
+                seconds--;
+                this.msgSuccess = `Registration completed successfully! Redirecting you to login in ${seconds} seconds...`;
+                if (seconds === 0) {
+                  clearInterval(interval);
+                  this._router.navigate(['./login']);
+                }
               }, 2000);
             }
           },

@@ -1,8 +1,26 @@
-<p>home works!</p>
-Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio saepe similique quae delectus nesciunt quibusdam sint ab
-provident quam molestias temporibus, minus consequuntur itaque repellat perferendis animi sed assumenda? Cumque quos id
-consequuntur eligendi hic voluptate, quidem similique nam necessitatibus. Ipsum nihil blanditiis vel rem libero illum
-laboriosam magnam necessitatibus dignissimos repudiandae veritatis iusto mollitia in odio corrupti ad quaerat, modi,
-ullam assumenda. Aperiam rerum modi aut quod ex illo doloremque, assumenda necessitatibus atque quasi, animi qui dolorem
-odio eveniet reprehenderit nobis impedit aspernatur aliquid dignissimos quisquam fuga incidunt a. Quia quo rem maxime,
-odio molestias recusandae explicabo. Odit, veritatis!
+<section class="my-5">
+    <div class="border-split d-flex justify-content-between">
+        <h2 class="title py-3">Shop From <span class="text-main fw-bold">Top Products</span></h2>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3 mt-1">
+        @for(product of productsList; track $index){
+        <div class="col">
+            <div class="card bg-body-tertiary">
+                <img [src]="product.imageCover" class="card-img-top fixed-size" [alt]="product.title">
+                <div class="card-body">
+                    <h5 class="card-title">{{product.category.name}}</h5>
+                    <p class="card-text">{{product.title.split(' ',3).join(' ')}}</p>
+                    <div class="d-flex justify-content-between">
+                        <p class="fw-bold"><span class="fs-5 text-main">{{product.price}}</span> EGP</p>
+                        <p class="text-muted">
+                            <i class="fa fa-star rating-color"></i>
+                            {{product.ratingsAverage}} ({{product.ratingsQuantity}})
+                        </p>
+                    </div>
+                </div>
+                <a href="#" class="btn-add btn-main w-75 mx-auto text-center">Add to Cart</a>
+            </div>
+        </div>
+        }
+    </div>
+</section>
