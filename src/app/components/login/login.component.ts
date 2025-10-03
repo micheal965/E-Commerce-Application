@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -11,13 +12,15 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent {
+export class LoginComponent implements OnDestroy {
   private readonly _authService = inject(AuthService);
   private readonly _formBuilder = inject(FormBuilder);
   private readonly _router = inject(Router);
   msgError: string = '';
   msgSuccess: string = '';
   isLoading: boolean = false;
+
+  loginSub!: Subscription;
 
   loginForm: FormGroup = this._formBuilder.group({
     email: [null, [Validators.required, Validators.email]],
@@ -27,9 +30,8 @@ export class LoginComponent {
   loginSubmit() {
     if (this.loginForm.valid) {
       this.isLoading = true;
-      this._authService.setLoginForm(this.loginForm.value).subscribe({
+      this.loginSub = this._authService.setLoginForm(this.loginForm.value).subscribe({
         next: (res) => {
-          this.isLoading = false;
           this.msgError = '';
           if (res.message == 'success') {
             let seconds: number = 2;
@@ -55,5 +57,7 @@ export class LoginComponent {
       this.loginForm.markAllAsTouched();
     }
   }
-
+  ngOnDestroy(): void {
+    this.loginSub?.unsubscribe();
+  }
 }

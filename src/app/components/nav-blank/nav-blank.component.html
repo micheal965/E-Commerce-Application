@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg bg-white">
     <div class="container-fluid">
         <a class="navbar-brand" routerLink="home">
             <img src="./assets/images/Websitelogo.png" alt="logo.svg">
@@ -28,22 +28,13 @@
 
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link">
-                        <i class="fa fa-brands fa-facebook"></i>
+                    <a class="nav-link" href="https://www.linkedin.com/in/micheal-ghobrial" target="_blank"
+                        rel="noopener noreferrer">
+                        <i class="fa fa-brands fa-linkedin fs-3 text-main"></i>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link">
-                        <i class="fa fa-brands fa-twitter"></i>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link">
-                        <i class="fa fa-brands fa-linkedin"></i>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a (click)="_authService.Logout()" class="nav-link cursor-pointer">
+                    <a (click)="_authService.Logout()" class="nav-link cursor-pointer text-danger">
                         Signout
                     </a>
                 </li>

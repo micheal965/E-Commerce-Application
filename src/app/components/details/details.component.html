@@ -1,0 +1,33 @@
+@if(product){
+<section>
+    <div class="row">
+        <div class="col-12 col-md-3">
+            <owl-carousel-o [options]="productSliderOptions">
+                @for (img of product.images; track $index) {
+                <ng-template carouselSlide>
+                    <img [src]="img" [alt]="img" class="w-100 rounded-2">
+                </ng-template>
+                }
+            </owl-carousel-o>
+        </div>
+        <div class="col-12 col-md-9 py-5 px-4 p-md-0 mt-lg-5">
+            <h3 class="fw-bold">{{product.title}}</h3>
+            <p class="ms-2 text-black-50">{{product.description}}</p>
+            <p>{{product.category.name}}</p>
+            <div class="d-flex justify-content-between">
+                <p>
+                    <span class="text-success fs-4">
+                        {{product.priceAfterDiscount == null? 0:product.priceAfterDiscount }}
+                    </span> EGP
+                    <small class="text-danger text-decoration-line-through ms-2">{{product.price}} EGP</small>
+                </p>
+                <p class="mt-2">
+                    <i class="fa fa-star rating-color"></i>
+                    {{product.ratingsAverage}} ({{product.ratingsQuantity}})
+                </p>
+            </div>
+            <button class="btn btn-success w-100 mt-1">Add to cart</button>
+        </div>
+    </div>
+</section>
+}

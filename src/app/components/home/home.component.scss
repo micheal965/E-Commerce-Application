@@ -1,6 +1,9 @@
 .title {
     border-bottom: 2px solid #008ECC;
 }
+.product-container:hover {
+    cursor: pointer;
+}
 
 .fixed-size{
     height: 300px;
@@ -13,7 +16,6 @@
 
 .card:hover {
     transform: scale(1.04);
-    border: 1px solid #008ECC;
 }
 
 .btn-add {
@@ -23,4 +25,8 @@
 
 .card:hover .btn-add {
     transform: translate(0);
+}
+
+.cat-img {
+    height: 300px;
 }

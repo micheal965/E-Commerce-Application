@@ -1,8 +1,9 @@
-import { Component, ElementRef, inject, ViewChild, viewChild } from '@angular/core';
+import { Component, ElementRef, inject, OnDestroy, ViewChild, viewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../core/services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-register',
   standalone: true,
@@ -10,14 +11,14 @@ import { Router } from '@angular/router';
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnDestroy {
   private readonly _authService = inject(AuthService);
   private readonly _formBuilder = inject(FormBuilder);
   private readonly _router = inject(Router);
   msgError: string = '';
   msgSuccess: string = '';
   isLoading: boolean = false;
-
+  registerSub!: Subscription;
   registerForm: FormGroup = this._formBuilder.group({
     name: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(15)]],
     email: [null, [Validators.required, Validators.email]],
@@ -30,10 +31,10 @@ export class RegisterComponent {
     return g.get('password')?.value === g.get('rePassword')?.value ? null : { mismatch: true };
   }
 
-  registerSubmit() {
+  registerSubmit(): void {
     if (this.registerForm.valid) {
       this.isLoading = true;
-      this._authService.setRegisterForm(this.registerForm.value).subscribe(
+      this.registerSub = this._authService.setRegisterForm(this.registerForm.value).subscribe(
         {
           next: (res) => {
             this.isLoading = false;
@@ -59,5 +60,8 @@ export class RegisterComponent {
     } else {
       this.registerForm.markAllAsTouched();
     }
+  }
+  ngOnDestroy(): void {
+    this.registerSub?.unsubscribe();
   }
 }

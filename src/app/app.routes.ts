@@ -11,6 +11,7 @@ import { BrandsComponent } from './components/brands/brands.component';
 import { CartComponent } from './components/cart/cart.component';
 import { authGuard } from './core/guards/auth.guard';
 import { guestGuard } from './core/guards/guest.guard';
+import { DetailsComponent } from './components/details/details.component';
 
 export const routes: Routes = [
     {
@@ -27,7 +28,8 @@ export const routes: Routes = [
             { path: 'products', component: ProductComponent, title: 'Products' },
             { path: 'categories', component: CategoriesComponent, title: 'Categories' },
             { path: 'brands', component: BrandsComponent, title: 'Brands' },
-            { path: 'cart', component: CartComponent, title: 'Cart' }
+            { path: 'cart', component: CartComponent, title: 'Cart' },
+            { path: 'details/:id', component: DetailsComponent, title: 'Details' }
         ]
     },
     { path: '**', component: NotfoundComponent }
