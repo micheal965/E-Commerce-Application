@@ -18,8 +18,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
   private activatedRouteSub!: Subscription;
   private productServiceSub!: Subscription;
-  product: IProductdetails | null = null;
 
+  product: IProductdetails | null = null;
 
   productSliderOptions: OwlOptions = {
     loop: true,
@@ -31,7 +31,20 @@ export class DetailsComponent implements OnInit, OnDestroy {
     dots: true,
     navSpeed: 700,
     navText: ['', ''],
-    items: 1,
+    responsive: {
+      0: {
+        items: 1   // mobile
+      },
+      576: {
+        items: 2   // sm
+      },
+      768: {
+        items: 3   // md
+      },
+      992: {
+        items: 4   // lg
+      }
+    },
     nav: false
   }
 

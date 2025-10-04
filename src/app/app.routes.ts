@@ -12,13 +12,15 @@ import { CartComponent } from './components/cart/cart.component';
 import { authGuard } from './core/guards/auth.guard';
 import { guestGuard } from './core/guards/guest.guard';
 import { DetailsComponent } from './components/details/details.component';
+import { ForgetpasswordComponent } from './components/forgetpassword/forgetpassword.component';
 
 export const routes: Routes = [
     {
         path: '', component: AuthLayoutComponent, canActivate: [guestGuard], children: [
             { path: '', redirectTo: "login", pathMatch: 'full' },
             { path: 'login', component: LoginComponent, title: 'Login' },
-            { path: 'register', component: RegisterComponent, title: 'Register' }
+            { path: 'register', component: RegisterComponent, title: 'Register' },
+            { path: 'forgetpassword', component: ForgetpasswordComponent, title: 'Forget Password' }
         ]
     },
     {

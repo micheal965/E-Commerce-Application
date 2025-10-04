@@ -39,7 +39,8 @@
             <p class="m-0">{{msgSuccess}}</p>
         </div>
         }
-        <button type="submit" [disabled]="loginForm.invalid || isLoading" class="btn-main mt-2">
+        <a routerLink="/forgetpassword" class="link-primary">Forgot your password?</a>
+        <button type="submit" [disabled]="loginForm.invalid || isLoading" class="btn-main mt-3">
             Login
             @if(isLoading){
             <i class="fa fa-spin fa-spinner"></i>

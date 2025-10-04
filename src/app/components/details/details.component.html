@@ -1,7 +1,7 @@
 @if(product){
 <section>
     <div class="row">
-        <div class="col-12 col-md-3">
+        <div class="col-12 col-md-4">
             <owl-carousel-o [options]="productSliderOptions">
                 @for (img of product.images; track $index) {
                 <ng-template carouselSlide>
@@ -10,7 +10,7 @@
                 }
             </owl-carousel-o>
         </div>
-        <div class="col-12 col-md-9 py-5 px-4 p-md-0 mt-lg-5">
+        <div class="col-12 col-md-8 py-5 px-4 p-md-0 mt-lg-5">
             <h3 class="fw-bold">{{product.title}}</h3>
             <p class="ms-2 text-black-50">{{product.description}}</p>
             <p>{{product.category.name}}</p>
