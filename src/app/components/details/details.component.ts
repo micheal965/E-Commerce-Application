@@ -16,8 +16,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   private readonly _activatedRoute = inject(ActivatedRoute);
   private readonly _productsService = inject(ProductsService);
 
-  private activatedRouteSub!: Subscription;
-  private productServiceSub!: Subscription;
+  private subscription = new Subscription();
 
   product: IProductdetails | null = null;
 
@@ -49,11 +48,11 @@ export class DetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.activatedRouteSub = this._activatedRoute.paramMap.subscribe({
+    const activatedRouteSub = this._activatedRoute.paramMap.subscribe({
       next: (params) => {
         let id: string | null = params.get('id');
         //Calling api
-        this.productServiceSub = this._productsService.getSpecificProduct(id).subscribe({
+        const productServiceSub = this._productsService.getSpecificProduct(id).subscribe({
           next: (res) => {
             this.product = res.data;
           },
@@ -61,11 +60,12 @@ export class DetailsComponent implements OnInit, OnDestroy {
             console.log(err);
           }
         });
+        this.subscription.add(productServiceSub);
       }
     })
+    this.subscription.add(activatedRouteSub);
   }
   ngOnDestroy(): void {
-    this.activatedRouteSub.unsubscribe();
-    this.productServiceSub.unsubscribe();
+    this.subscription.unsubscribe();
   }
 }

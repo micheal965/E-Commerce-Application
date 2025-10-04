@@ -7,11 +7,13 @@ import { CategoriesService } from '../../core/services/categories.service';
 import { ICategory } from '../../core/interfaces/icategory';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { RouterLink } from "@angular/router";
+import { SearchPipe } from '../../core/pipes/search.pipe';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [RouterLink, CarouselModule],
+  imports: [RouterLink, CarouselModule, SearchPipe, FormsModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
@@ -22,7 +24,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   productsList: IProduct[] = [];
   categoriesList: ICategory[] = [];
-
+  searchWord: string = '';
   getAllProductsSub!: Subscription;
   getAllCategoriesSub!: Subscription;
 
