@@ -3,10 +3,12 @@
 
 @import 'ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
 @import 'ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
+// regular style toast
+@import 'ngx-toastr/toastr';
 
 :root {
-  --main-color: #008ECC;
-  --light-color: #f0f3f2;
+  --main-color: rgba(4, 88, 113, 0.994);
+  --light-color: #d4d4d446;
   --shadow: rgba(145, 158, 171, 0.2) 0px 2px 4px -1px,
     rgba(145, 158, 171, 0.14) 0px 4px 5px 0px,
     rgba(145, 158, 171, 0.12) 0px 1px 10px 0px;
@@ -23,7 +25,7 @@ body {
 }
 .active-link {
   background-color: var(--main-color) !important;
-  color: var(--light-color) !important;
+  color: white !important;
   border-radius: 5px;
 }
 
@@ -56,7 +58,7 @@ a:hover {
   font-size: 12px;
 }
 .text-main {
-  color: var(--main-color);
+  color: var(--main-color) !important;
 }
 .bg-main {
   background-color: var(--main-color) !important;
@@ -92,14 +94,17 @@ a:hover {
   content: '';
   width: 50px;
   height: 50px;
-  background-color: rgba(20, 182, 231, 0.681);
+  background-color: rgba(151, 180, 253, 0.574);
   position: absolute;
   bottom:0;
   transform: translateX(-550%) skewX(-50deg);
   transition: all 0.9s;
 }
-.btn-main:hover::before {
+.btn-add:hover::before {
   transform: translateX(550%)  skewX(-50deg);
+}
+.btn-add:hover {
+  background-color: rgba(1, 51, 80, 0.994);
 }
 
 // Carousel

@@ -1,1 +1,39 @@
-<p>cart works!</p>
+<section class="bg-main-light my-4 rounded-4 shadow">
+    <div class="bg-main rounded-top-2">
+        <h1 class="text-white fw-bold text-center py-3 ">Shop Cart</h1>
+    </div>
+    @for(item of cart.products ; track item.product._id){
+    <div class="row row-cols-1 p-3 mb-1 mx-0 border-bottom ">
+        <div class="col-md-1">
+            <img [src]="item.product.imageCover" class="w-100 h-100" [alt]="item.product.title">
+        </div>
+        <div class="col-md-11 d-flex justify-content-between align-items-center mt-2">
+            <div>
+                <p class="m-1 fs-5">{{item.product.title}}</p>
+                <p class="m-1 mt-2"><span class="text-main fs-5 fw-bold">{{item.price}}</span> EGP</p>
+            </div>
+            <div class="g-3 d-flex flex-column">
+                <div class="d-flex align-items-center">
+                    <button class="btn" (click)="updateCartItem(item.product._id,item.count - 1)"><i
+                            class="fa-solid fa-circle-minus fs-3 text-main"></i></button>
+                    <span class="fw-4 fw-bold">{{item.count}}</span>
+                    <button class="btn" (click)="updateCartItem(item.product._id,item.count + 1)"><i
+                            class="fa-solid fa-circle-plus fs-3 text-main"></i></button>
+                </div>
+                <div class="d-flex justify-content-center mt-3">
+                    <button class="btn btn-outline-danger" (click)="deleteCartItem(item.product.id)">
+                        <i class="fa-solid fa-trash fs-5"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    <div class="d-flex align-items-baseline justify-content-between p-3 px-4 ">
+        <p class="fs-4">Total Price: <span class="text-main fw-bold">{{cart.totalCartPrice}}</span> EGP</p>
+        <div class="d-flex align-items-center">
+            <button class="btn-main me-1" [routerLink]="['/orders' , cart._id]">Orders Confirmation</button>
+            <button class="btn btn-danger" (click)="clearCart()">Clear Cart</button>
+        </div>
+    </div>
+</section>

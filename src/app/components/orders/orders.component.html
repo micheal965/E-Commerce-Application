@@ -1,0 +1,38 @@
+<section class="bg-main-light shadow my-5 rounded-4">
+    <div class="bg-main rounded-top-2">
+        <h1 class="text-white fw-bold text-center py-3">Orders Confirmation</h1>
+    </div>
+    <form [formGroup]="orderForm" class="row-cols-1 justify-content-center p-5 pt-3" (ngSubmit)="checkOutSubmit()">
+        <div class="my-2">
+            <label for="phone" class="form-label">Phone</label>
+            <input formControlName="phone" id="phone" class="form-control">
+            @if(orderForm.get('phone')?.errors &&
+            (orderForm.get('phone')?.touched || orderForm.get('phone')?.dirty)){
+            <div class="alert alert-danger my-1">
+                @if(orderForm.get('phone')?.getError('required')){
+                <p class="m-0">Phone Is Required.</p>
+                }@else if(orderForm.get('phone')?.getError('pattern')){
+                <p class="m-0">Please enter a valid Phone</p>
+                }
+            </div>
+            }
+        </div>
+        <div class="my-2">
+            <label for="city" class="form-label">City</label>
+            <input formControlName="city" id="city" class="form-control">
+        </div>
+        <div class="my-2">
+            <label for="details" class="form-label">Details</label>
+            <textarea formControlName="details" id="details" class="form-control"></textarea>
+        </div>
+        <div class="mt-4 text-end">
+            <button [disabled]="orderForm.invalid || isLoading" class="btn btn-success" type="submit">
+                Check Out
+                @if(isLoading){
+                <span><i class=" fas fa-spin fa-spinner"></i></span>
+                }
+            </button>
+        </div>
+    </form>
+
+</section>

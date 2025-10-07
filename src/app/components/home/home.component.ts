@@ -9,6 +9,8 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
 import { RouterLink } from "@angular/router";
 import { SearchPipe } from '../../core/pipes/search.pipe';
 import { FormsModule } from '@angular/forms';
+import { CartService } from '../../core/services/cart.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
@@ -21,12 +23,13 @@ import { FormsModule } from '@angular/forms';
 export class HomeComponent implements OnInit, OnDestroy {
   private readonly _categoryService = inject(CategoriesService);
   private readonly _productService = inject(ProductsService);
+  private readonly _cartService = inject(CartService);
+  private readonly _toastr = inject(ToastrService);
 
+  private subscriptions = new Subscription();
   productsList: IProduct[] = [];
   categoriesList: ICategory[] = [];
   searchWord: string = '';
-  getAllProductsSub!: Subscription;
-  getAllCategoriesSub!: Subscription;
 
   mainCustomOptions: OwlOptions = {
     loop: true,
@@ -75,7 +78,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
   ngOnInit(): void {
     //Categories
-    this.getAllCategoriesSub = this._categoryService.getAllCategories().subscribe({
+    const getAllCategoriesSub = this._categoryService.getAllCategories().subscribe({
       next: (res) => {
         this.categoriesList = res.data;
       },
@@ -83,9 +86,9 @@ export class HomeComponent implements OnInit, OnDestroy {
         console.log(err);
       }
     });
-
+    this.subscriptions.add(getAllCategoriesSub);
     //Products
-    this.getAllProductsSub = this._productService.getAllProducts().subscribe({
+    const getAllProductsSub = this._productService.getAllProducts().subscribe({
       next: (res) => {
         this.productsList = res.data.slice(0, 12);
       },
@@ -93,9 +96,22 @@ export class HomeComponent implements OnInit, OnDestroy {
         console.error(err);
       }
     })
+    this.subscriptions.add(getAllProductsSub);
   }
+
+  addToCart(id: string): void {
+    const sub = this._cartService.addProductToCart(id).subscribe({
+      next: (res) => {
+        this._toastr.success(res.message);
+      },
+      error: (err) => {
+        this._toastr.error(err.message);
+      }
+    });
+    this.subscriptions.add(sub);
+  }
+
   ngOnDestroy(): void {
-    this.getAllProductsSub?.unsubscribe();
-    this.getAllCategoriesSub?.unsubscribe();
+    this.subscriptions?.unsubscribe();
   }
 }

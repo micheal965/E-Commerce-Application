@@ -1,9 +1,11 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ProductsService } from '../../core/services/products.service';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { IProductdetails } from '../../core/interfaces/iproductdetails';
+import { CartService } from '../../core/services/cart.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-details',
@@ -15,7 +17,9 @@ import { IProductdetails } from '../../core/interfaces/iproductdetails';
 export class DetailsComponent implements OnInit, OnDestroy {
   private readonly _activatedRoute = inject(ActivatedRoute);
   private readonly _productsService = inject(ProductsService);
-
+  private readonly _cartService = inject(CartService);
+  private readonly _toastr = inject(ToastrService);
+  private readonly _router = inject(Router);
   private subscription = new Subscription();
 
   product: IProductdetails | null = null;
@@ -64,6 +68,18 @@ export class DetailsComponent implements OnInit, OnDestroy {
       }
     })
     this.subscription.add(activatedRouteSub);
+  }
+  addToCart(id: string): void {
+    const sub = this._cartService.addProductToCart(id).subscribe({
+      next: (res) => {
+        this._toastr.success(res.message);
+        this._router.navigate(['/cart']);
+      },
+      error: (err) => {
+        this._toastr.error(err.message);
+      }
+    });
+    this.subscription.add(sub);
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
