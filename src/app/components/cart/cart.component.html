@@ -4,10 +4,10 @@
     </div>
     @for(item of cart.products ; track item.product._id){
     <div class="row row-cols-1 p-3 mb-1 mx-0 border-bottom ">
-        <div class="col-md-1">
+        <div class="col-md-2 col-lg-1">
             <img [src]="item.product.imageCover" class="w-100 h-100" [alt]="item.product.title">
         </div>
-        <div class="col-md-11 d-flex justify-content-between align-items-center mt-2">
+        <div class="col-md-10 col-lg-11 d-flex justify-content-between align-items-center mt-2">
             <div>
                 <p class="m-1 fs-5">{{item.product.title}}</p>
                 <p class="m-1 mt-2"><span class="text-main fs-5 fw-bold">{{item.price}}</span> EGP</p>

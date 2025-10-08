@@ -7,24 +7,38 @@
             aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <div class="collapse navbar-collapse mt-2 justify-content-between" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="home" routerLinkActive="active-link">Home</a>
+                    <a class="nav-link p-2 p-md-2" routerLink="home" routerLinkActive="active-link">{{"navbar.home" |
+                        translate}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="products" routerLinkActive="active-link">Products</a>
+                    <a class="nav-link p-2 p-md-2" routerLink="products" routerLinkActive="active-link">
+                        {{"navbar.products" | translate}}
+                    </a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="categories" routerLinkActive="active-link">Categories</a>
+                    <a class="nav-link p-2 p-md-2" routerLink="categories" routerLinkActive="active-link">
+                        {{"navbar.categories" | translate}}
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="brands" routerLinkActive="active-link">Brands</a>
+                    <a class="nav-link p-2 p-md-2" routerLink="brands" routerLinkActive="active-link">
+                        {{"navbar.brands" | translate}}
+                    </a>
                 </li>
             </ul>
 
-            <ul class="navbar-nav ms-auto align-items-center">
+            <ul class="navbar-nav align-items-center">
+                <li class="nav-item">
+                    <button class="btn bg-main text-white"
+                        (click)="change(_translateService.currentLang === 'en' ? 'ar' : 'en' )">
+                        <i class="fa-solid fa-globe me-2"></i>
+                        {{_translateService.currentLang === 'en' ? 'العربية' : 'English' }}
+                    </button>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" routerLink="cart" routerLinkActive="text-main">
                         <i class="fa-solid fa-cart-shopping fs-5"></i>
@@ -38,7 +52,7 @@
                 </li>
                 <li class="nav-item">
                     <a (click)="_authService.Logout()" class="nav-link cursor-pointer text-danger">
-                        Signout
+                        {{"navbar.signout" | translate}}
                     </a>
                 </li>
             </ul>

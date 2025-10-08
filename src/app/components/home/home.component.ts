@@ -11,6 +11,7 @@ import { SearchPipe } from '../../core/pipes/search.pipe';
 import { FormsModule } from '@angular/forms';
 import { CartService } from '../../core/services/cart.service';
 import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-home',
@@ -25,6 +26,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private readonly _productService = inject(ProductsService);
   private readonly _cartService = inject(CartService);
   private readonly _toastr = inject(ToastrService);
+  private readonly _NgxSpinnerService = inject(NgxSpinnerService);
 
   private subscriptions = new Subscription();
   productsList: IProduct[] = [];
@@ -40,6 +42,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     autoplayTimeout: 3000,
     dots: true,
     navSpeed: 700,
+    rtl: true,
     navText: ['', ''],
     items: 1,
     nav: false
@@ -53,6 +56,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     autoplayTimeout: 3000,
     dots: false,
     navSpeed: 700,
+    rtl: true,
     navText: ['<i class="fa-solid fa-left-long"></i>', '<i class="fa-solid fa-right-long"></i>'],
     responsive: {
       0: {

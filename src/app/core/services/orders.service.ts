@@ -7,14 +7,11 @@ import { environment } from '../environments/environment';
   providedIn: 'root'
 })
 export class OrdersService {
-  headers: any = { token: localStorage.getItem('token') };
   constructor(private _httpClient: HttpClient) { }
 
   checkout(id: string | null, shippingDetails: object): Observable<any> {
     return this._httpClient.post(`${environment.baseUrl}/api/v1/orders/checkout-session/${id}?url=${environment.urlServer}`, {
       "shippingAddress": shippingDetails
-    }, {
-      headers: this.headers
     })
   }
   getUserOrders(id: string): Observable<any> {
