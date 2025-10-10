@@ -1,1 +1,31 @@
-<p>product works!</p>
+<section class="my-5">
+    <div class="border-split d-flex justify-content-between">
+        <h2 class="title py-3">Shop From <span class="text-main fw-bold">Products</span></h2>
+    </div>
+
+    <input [(ngModel)]="searchWord" type="search" class="form-control w-50 mx-auto my-4" placeholder="Search">
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-3 mt-1">
+        @for(product of productsList() | search: searchWord; track $index){
+        <div class="product-container col">
+            <div class="card bg-body-tertiary">
+                <div [routerLink]="['/details',product.id]">
+                    <img [src]="product.imageCover" class="card-img-top fixed-size" [alt]="product.title">
+                    <div class="card-body p-3">
+                        <h5 class="card-title">{{product.category.name}}</h5>
+                        <p class="card-text">{{product.title.split(' ',3).join(' ')}}</p>
+                        <div class="d-flex justify-content-between">
+                            <p class="fw-bold"><span class="fs-5 text-main">{{product.price}}</span> EGP</p>
+                            <p class="text-muted">
+                                <i class="fa fa-star rating-color"></i>
+                                {{product.ratingsAverage}} ({{product.ratingsQuantity}})
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <a class="btn-add btn-main w-75 mx-auto text-center" (click)="addToCart(product.id)">Add to Cart</a>
+            </div>
+        </div>
+        }
+    </div>
+</section>

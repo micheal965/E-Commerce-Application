@@ -1,5 +1,5 @@
 import { OwlOptions } from './../../../../node_modules/ngx-owl-carousel-o/lib/models/owl-options.model.d';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, RendererFactory2, signal, WritableSignal } from '@angular/core';
 import { ProductsService } from '../../core/services/products.service';
 import { IProduct } from '../../core/interfaces/iproduct';
 import { Subscription } from 'rxjs';
@@ -11,7 +11,6 @@ import { SearchPipe } from '../../core/pipes/search.pipe';
 import { FormsModule } from '@angular/forms';
 import { CartService } from '../../core/services/cart.service';
 import { ToastrService } from 'ngx-toastr';
-import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-home',
@@ -26,12 +25,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   private readonly _productService = inject(ProductsService);
   private readonly _cartService = inject(CartService);
   private readonly _toastr = inject(ToastrService);
-  private readonly _NgxSpinnerService = inject(NgxSpinnerService);
+  private readonly _renderer2 = inject(RendererFactory2).createRenderer(null, null);
 
   private subscriptions = new Subscription();
-  productsList: IProduct[] = [];
-  categoriesList: ICategory[] = [];
+  productsList: WritableSignal<IProduct[]> = signal([]);
+  categoriesList: WritableSignal<ICategory[]> = signal([]);
   searchWord: string = '';
+  htmlElement = this._renderer2.selectRootElement('html', true);
 
   mainCustomOptions: OwlOptions = {
     loop: true,
@@ -57,7 +57,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     dots: false,
     navSpeed: 700,
     rtl: true,
-    navText: ['<i class="fa-solid fa-left-long"></i>', '<i class="fa-solid fa-right-long"></i>'],
+    navText: this.htmlElement.getAttribute('dir') == 'ltr'
+      ? ['<i class="fa-solid fa-right-long"></i>', '<i class="fa-solid fa-left-long"></i>']
+      : ['<i class="fa-solid fa-left-long"></i>', '<i class="fa-solid fa-right-long"></i>'],
     responsive: {
       0: {
         items: 1   // mobile
@@ -84,20 +86,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     //Categories
     const getAllCategoriesSub = this._categoryService.getAllCategories().subscribe({
       next: (res) => {
-        this.categoriesList = res.data;
-      },
-      error: (err) => {
-        console.log(err);
+        this.categoriesList.set(res.data);
       }
     });
     this.subscriptions.add(getAllCategoriesSub);
     //Products
     const getAllProductsSub = this._productService.getAllProducts().subscribe({
       next: (res) => {
-        this.productsList = res.data.slice(0, 12);
-      },
-      error: (err) => {
-        console.error(err);
+        this.productsList.set(res.data.slice(0, 12));
       }
     })
     this.subscriptions.add(getAllProductsSub);
@@ -107,6 +103,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     const sub = this._cartService.addProductToCart(id).subscribe({
       next: (res) => {
         this._toastr.success(res.message);
+        this._cartService.cartNumber.set(res.numOfCartItems);
       },
       error: (err) => {
         this._toastr.error(err.message);

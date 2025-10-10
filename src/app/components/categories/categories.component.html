@@ -1,1 +1,15 @@
-<p>categories works!</p>
+<section class="my-5">
+    <div class="border-split d-flex justify-content-between">
+        <h2 class="title py-3">Shop From <span class="text-main fw-bold">Categories</span></h2>
+    </div>
+    <div class="row row-cols-4 g-5 mt-2">
+        @for (cat of categoriesList(); track cat._id) {
+        <div class="col text-center " [routerLink]="['/categoryDetails',cat._id]">
+            <div class="card border border-1 rounded-2 cursor-pointer">
+                <img [src]="cat.image" [alt]="cat.name" class="cat-img w-100 ">
+                <h3 class="fs-4 text-main mt-2">{{cat.name}}</h3>
+            </div>
+        </div>
+        }
+    </div>
+</section>

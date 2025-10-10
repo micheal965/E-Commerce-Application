@@ -32,6 +32,7 @@ export class CartComponent implements OnInit {
       next: (res) => {
         this.cart = res.data;
         this._toastr.success('Item removed from your cart.');
+        this._cartService.cartNumber.set(res.numOfCartItems);
       },
       error: () => {
         this._toastr.error('Something went wrong while removing the item from your cart.');
@@ -58,10 +59,10 @@ export class CartComponent implements OnInit {
   clearCart(): void {
     const sub = this._cartService.clearCart().subscribe({
       next: (res) => {
-        console.log(res);
         if (res.message == 'success') {
           this._toastr.success('Your cart has been cleared successfully.');
           this.cart = {} as Icart;
+          this._cartService.cartNumber.set(res.numOfCartItems);
         }
       },
       error: () => {

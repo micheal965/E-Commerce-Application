@@ -1,0 +1,12 @@
+@if(category){
+<section class="container-sm p-5">
+    <div class="row row-cols-1 row-cols-md-2 p-5">
+        <div class="col">
+            <img [src]="category.image" [alt]="category.name" class="w-100 rounded-2 ">
+        </div>
+        <div class="col d-flex align-items-center justify-content-center mt-4 m-md-0">
+            <h3 class="fw-bold text-main">{{category.name}}</h3>
+        </div>
+    </div>
+</section>
+}

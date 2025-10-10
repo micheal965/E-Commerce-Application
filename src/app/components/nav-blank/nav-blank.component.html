@@ -24,24 +24,24 @@
                         {{"navbar.categories" | translate}}
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link p-2 p-md-2" routerLink="brands" routerLinkActive="active-link">
-                        {{"navbar.brands" | translate}}
-                    </a>
-                </li>
             </ul>
 
             <ul class="navbar-nav align-items-center">
-                <li class="nav-item">
+                <!-- Language Switch Button  
+                    To manage translations, go to assets/i18n and update the translation files.  
+                    Clicking this button toggles between English and Arabic. -->
+
+                <!-- <li class="nav-item">
                     <button class="btn bg-main text-white"
                         (click)="change(_translateService.currentLang === 'en' ? 'ar' : 'en' )">
                         <i class="fa-solid fa-globe me-2"></i>
                         {{_translateService.currentLang === 'en' ? 'العربية' : 'English' }}
                     </button>
-                </li>
+                </li> -->
                 <li class="nav-item">
-                    <a class="nav-link" routerLink="cart" routerLinkActive="text-main">
-                        <i class="fa-solid fa-cart-shopping fs-5"></i>
+                    <a class="nav-link position-relative" routerLink="cart" routerLinkActive="text-main">
+                        <i class="fa-solid fa-cart-shopping fa-xl"></i>
+                        <span class="badge bg-main fw-bold position-absolute top-0 end-0">{{cartNumber()}}</span>
                     </a>
                 </li>
                 <li class="nav-item">

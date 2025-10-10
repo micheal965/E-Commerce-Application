@@ -7,7 +7,7 @@
 @import 'ngx-toastr/toastr';
 
 :root {
-  --main-color: #045871fd;
+  --main-color: rgba(1, 51, 80, 0.994);
   --light-color: #d4d4d446;
   --shadow: rgba(145, 158, 171, 0.2) 0px 2px 4px -1px,
     rgba(145, 158, 171, 0.14) 0px 4px 5px 0px,
@@ -103,9 +103,6 @@ a:hover {
 .btn-add:hover::before {
   transform: translateX(550%)  skewX(-50deg);
 }
-.btn-add:hover {
-  background-color: rgba(1, 51, 80, 0.994);
-}
 
 // Carousel
 .owl-prev,
@@ -113,4 +110,40 @@ a:hover {
 .owl-dot:hover span,
 .owl-dot.active span {
   background: var(--main-color) !important;
+}
+
+//Card
+.product-container:hover {
+    cursor: pointer;
+}
+
+.title {
+    border-bottom: 2px solid rgba(4, 88, 113, 0.994);
+}
+
+.fixed-size{
+    height: 300px;
+}
+
+.card {
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.04);
+}
+
+.btn-add {
+    transform: translateY(120%);
+    transition: transform .5s ease;
+}
+
+.card:hover .btn-add {
+    transform: translate(0);
+}
+
+//Categories
+.cat-img {
+    height: 300px;
 }
