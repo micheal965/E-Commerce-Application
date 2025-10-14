@@ -16,5 +16,5 @@ This project simulates a real online shopping platform, showcasing my skills in 
 
 - **Framework:** Angular 18 (Angular CLI 18.2.21)  
 - **Language:** TypeScript  
-- **Styling:** Bootstrap / Tailwind CSS (update based on what you used)  
-- **Data Handling:** Angular services + mock APIs / backend integration (depending on your setup)  
+- **Styling:** Bootstrap / Tailwind CSS
+- **Data Handling:** Angular services + mock APIs / backend integration 
