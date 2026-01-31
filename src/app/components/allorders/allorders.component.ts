@@ -10,9 +10,7 @@ import { DatePipe } from '@angular/common';
   standalone: true,
   imports: [DatePipe],
   templateUrl: './allorders.component.html',
-  styleUrl: './allorders.component.scss'
 })
-
 export class AllordersComponent implements OnInit, OnDestroy {
   private readonly _orderService = inject(OrdersService);
 
@@ -24,13 +22,8 @@ export class AllordersComponent implements OnInit, OnDestroy {
       const decodedToken: any = jwtDecode(token);
       const userId = decodedToken.id;
       const sub = this._orderService.getUserOrders(userId).subscribe({
-        next: (res) => {
-          this.orders = res;
-        },
-        error: (err) => {
-          console.log(err);
-        }
-      })
+        next: (res) => (this.orders = res),
+      });
       this.subscriptions.add(sub);
     }
   }

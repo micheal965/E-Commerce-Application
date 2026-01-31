@@ -6,7 +6,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
 import { authGuard } from './core/guards/auth.guard';
 import { guestGuard } from './core/guards/guest.guard';
-import { ProductComponent } from './components/product/product.component';
+import { ProductsComponent } from './components/products/products.component';
 import { ForgetpasswordComponent } from './components/forgetpassword/forgetPassword.component';
 
 export const routes: Routes = [
@@ -32,7 +32,7 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: 'home', component: HomeComponent, title: 'Home' },
-      { path: 'products', component: ProductComponent, title: 'Products' },
+      { path: 'products', component: ProductsComponent, title: 'Products' },
       {
         path: 'categories',
         loadComponent: () =>

@@ -1,10 +1,11 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { ProductsService } from '../../core/services/products.service';
+import { Component, inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { filter, map, switchMap } from 'rxjs';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
-import { IProductdetails } from '../../core/interfaces/iproductdetails';
+
 import { CartService } from '../../core/services/cart.service';
+import { ProductsService } from '../../core/services/products.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -12,18 +13,12 @@ import { ToastrService } from 'ngx-toastr';
   standalone: true,
   imports: [CarouselModule],
   templateUrl: './details.component.html',
-  styleUrl: './details.component.scss'
 })
-export class DetailsComponent implements OnInit, OnDestroy {
+export class DetailsComponent {
   private readonly _activatedRoute = inject(ActivatedRoute);
   private readonly _productsService = inject(ProductsService);
   private readonly _cartService = inject(CartService);
   private readonly _toastr = inject(ToastrService);
-  private readonly _router = inject(Router);
-  private subscription = new Subscription();
-
-  product: IProductdetails | null = null;
-
   productSliderOptions: OwlOptions = {
     loop: true,
     mouseDrag: true,
@@ -36,52 +31,35 @@ export class DetailsComponent implements OnInit, OnDestroy {
     navText: ['', ''],
     responsive: {
       0: {
-        items: 1   // mobile
+        items: 1, // mobile
       },
       576: {
-        items: 2   // sm
+        items: 2, // sm
       },
       768: {
-        items: 3   // md
+        items: 3, // md
       },
       992: {
-        items: 4   // lg
-      }
-    },
-    nav: false
-  }
-
-  ngOnInit(): void {
-    const activatedRouteSub = this._activatedRoute.paramMap.subscribe({
-      next: (params) => {
-        let id: string | null = params.get('id');
-        //Calling api
-        const productServiceSub = this._productsService.getSpecificProduct(id).subscribe({
-          next: (res) => {
-            this.product = res.data;
-          },
-          error: (err) => {
-            console.log(err);
-          }
-        });
-        this.subscription.add(productServiceSub);
-      }
-    })
-    this.subscription.add(activatedRouteSub);
-  }
-  addToCart(id: string): void {
-    const sub = this._cartService.addProductToCart(id).subscribe({
-      next: (res) => {
-        this._toastr.success(res.message);
-        this._router.navigate(['/cart']);
+        items: 4, // lg
       },
-      error: (err) => {
-        this._toastr.error(err.message);
-      }
+    },
+    nav: false,
+  };
+
+  product = toSignal(
+    this._activatedRoute.paramMap.pipe(
+      map((params) => params.get('id')),
+      filter((id): id is string => !!id),
+      switchMap((id) => this._productsService.getSpecificProduct(id)),
+      map((res) => res.data),
+    ),
+    { initialValue: null },
+  );
+
+  addToCart(id: string): void {
+    this._cartService.addProductToCart(id).subscribe({
+      next: (res) => this._toastr.success(res.message),
+      error: (err) => this._toastr.error(err.message),
     });
-    this.subscription.add(sub);
-  }
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 }
