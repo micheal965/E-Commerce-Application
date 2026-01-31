@@ -1,0 +1,31 @@
+<form [formGroup]="verifyCode" class="row-cols-1 justify-content-center" (ngSubmit)="verifyCodeSubmit()">
+    <div class="my-2">
+        <label for="resetCode" class="form-label">ResetCode</label>
+        <input formControlName="resetCode" id="resetCode" type="text" class="form-control">
+        @if(resetCodeControl?.invalid && (resetCodeControl?.touched || resetCodeControl?.dirty)){
+        <div class="alert alert-danger mt-1">
+            @if(resetCodeControl?.getError('required')){
+            <p class="m-0">ResetCode Is Required.</p>
+            }@else if(resetCodeControl?.getError('pattern')){
+            <p class="m-0">Please enter a valid ResetCode</p>
+            }
+        </div>
+        }
+    </div>
+    @if(errorMsg){
+    <div class="alert alert-danger">
+        <p class="m-0">{{errorMsg}}</p>
+    </div>
+    }
+    @else if (successMsg) {
+    <div class="alert alert-success">
+        <p class="m-0">{{successMsg}}</p>
+    </div>
+    }
+    <button [disabled]="verifyCode.invalid || isLoading" type="submit" class="btn-main mt-1">
+        Verify Code
+        @if(isLoading){
+        <span><i class=" fas fa-spin fa-spinner"></i></span>
+        }
+    </button>
+</form>

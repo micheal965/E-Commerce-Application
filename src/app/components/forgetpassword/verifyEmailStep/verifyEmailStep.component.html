@@ -1,0 +1,31 @@
+<form [formGroup]="verifyEmail" class="row-cols-1 justify-content-center" (ngSubmit)="verifyEmailSubmit()">
+    <div class="my-2">
+        <label for="email" class="form-label">Email</label>
+        <input formControlName="email" id="email" type="email" class="form-control">
+        @if(verifyEmailControl?.invalid && (verifyEmailControl?.touched || verifyEmailControl?.dirty )){
+        <div class="alert alert-danger mt-1">
+            @if(verifyEmailControl?.getError('required')){
+            <p class="m-0">Email Is Required.</p>
+            }@else if(verifyEmailControl?.getError('email')){
+            <p class="m-0">Please enter a valid email address</p>
+            }
+        </div>
+        }
+    </div>
+    @if(errorMsg){
+    <div class="alert alert-danger">
+        <p class="m-0">{{errorMsg}}</p>
+    </div>
+    }
+    @else if (successMsg) {
+    <div class="alert alert-success">
+        <p class="m-0">{{successMsg}}</p>
+    </div>
+    }
+    <button [disabled]="verifyEmail.invalid || isLoading" type="submit" class="btn-main mt-1">
+        Verify Email
+        @if(isLoading){
+        <span><i class=" fas fa-spin fa-spinner"></i></span>
+        }
+    </button>
+</form>

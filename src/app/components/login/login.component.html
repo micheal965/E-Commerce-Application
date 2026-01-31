@@ -1,15 +1,15 @@
 <section class="bg-main-light shadow p-4 my-5 rounded-4">
     <h1 class="h1 text-main text-center fw-bolder">Login</h1>
-    <form [formGroup]="loginForm" class="row-cols-1 justify-content-center" (ngSubmit)="loginSubmit()">
+    <form [formGroup]="loginForm" class="row-cols-1 justify-content-center" (ngSubmit)="loginSubmit()"
+        (input)="clearBackendError()">
         <div class="my-2">
             <label class="form-label" for="email">Email</label>
             <input formControlName="email" type="email" id="email" class="form-control">
-            @if(loginForm.get('email')?.errors &&
-            (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)){
+            @if(email?.invalid && (email?.touched || email?.dirty)){
             <div class="alert alert-danger my-1">
-                @if(loginForm.get('email')?.getError('required')){
+                @if(email?.getError('required')){
                 <p class="m-0">Email Is Required.</p>
-                }@else if(loginForm.get('email')?.getError('email')){
+                }@else if(email?.getError('email')){
                 <p class="m-0">Please enter a valid email address</p>
                 }
             </div>
@@ -18,12 +18,11 @@
         <div class="my-2">
             <label class="form-label" for="password">Password</label>
             <input formControlName="password" class="form-control" type="password" id="password">
-            @if(loginForm.get('password')?.errors &&
-            (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)){
+            @if(password?.invalid && (password?.touched || password?.dirty)){
             <div class="alert alert-danger my-1">
-                @if(loginForm.get('password')?.getError('required')){
+                @if(password?.getError('required')){
                 <p class="m-0">Password Is Required.</p>
-                }@else if(loginForm.get('password')?.getError('pattern')){
+                }@else if(password?.getError('pattern')){
                 <p class="m-0">Please enter a valid Password</p>
                 }
             </div>
