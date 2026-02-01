@@ -14,6 +14,7 @@ export class MyTranslateService {
     if (isPlatformBrowser(this._platformId))
       this.setLang();
   }
+  
   setLang(): void {
     let savedLang = localStorage.getItem('lang');
     if (savedLang !== null) {

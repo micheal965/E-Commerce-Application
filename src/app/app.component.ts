@@ -8,6 +8,4 @@ import { NgxSpinnerComponent } from 'ngx-spinner';
   imports: [RouterOutlet, NgxSpinnerComponent],
   templateUrl: './app.component.html',
 })
-export class AppComponent {
-  title = 'E-Commerce';
-}
+export class AppComponent {}

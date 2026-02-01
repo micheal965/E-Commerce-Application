@@ -8,7 +8,6 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { OrdersService } from '../../core/services/orders.service';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-orders',
@@ -21,7 +20,6 @@ export class OrdersComponent implements OnInit, OnDestroy {
   private readonly _activatedRoute = inject(ActivatedRoute);
   private readonly _ordersService = inject(OrdersService);
   private readonly _router = inject(Router);
-  private readonly _toastr = inject(ToastrService);
 
   subscriptions: Subscription = new Subscription();
   cartId!: string | null;
@@ -49,12 +47,9 @@ export class OrdersComponent implements OnInit, OnDestroy {
       .checkout(this.cartId, this.orderForm.value)
       .subscribe({
         next: (res) => {
-          if (res.status === 'success') {
-            window.open(res.session.url, '_self');
-          }
+          if (res.status === 'success') window.open(res.session.url, '_self');
         },
         error: () => {
-          this._toastr.error('There are no items in your cart to checkout.');
           this._router.navigate(['/cart']);
         },
       });

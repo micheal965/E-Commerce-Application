@@ -6,45 +6,81 @@ import {
   signal,
   WritableSignal,
 } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { catchError, EMPTY, Observable, tap, throwError } from 'rxjs';
 import { environment } from '../environments/environment';
-import { IaddToCartResponse } from '../interfaces/iadd-to-cart-response';
+import { ToastrService } from 'ngx-toastr';
+import { Icart } from '../interfaces/icart';
+import { IcrudCartResponse } from '../interfaces/icart-crud-response';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  cartNumber: WritableSignal<number> = signal(0);
+  private readonly http = inject(HttpClient);
+  private readonly toastr = inject(ToastrService);
 
-  constructor(private _httpClient: HttpClient) {
-    effect(() => {
-      localStorage.setItem('cartItem', this.cartNumber().toString());
-    });
+  private readonly _cart = signal<Icart | null>(null);
+  readonly cart = this._cart.asReadonly();
+
+  private readonly _cartNumber = signal(0);
+  readonly cartNumber = this._cartNumber.asReadonly();
+
+  getProductsCart(): Observable<any> {
+    return this.http
+      .get<any>(`${environment.baseUrl}/api/v1/cart`)
+      .pipe(tap((res) => this._cart.set(res.data)));
+  }
+  deleteSpecificCartItem(id: string): Observable<IcrudCartResponse> {
+    return this.http
+      .delete<IcrudCartResponse>(`${environment.baseUrl}/api/v1/cart/${id}`)
+      .pipe(
+        tap((res) => {
+          this._cartNumber.set(res.numOfCartItems);
+          this._cart.set(res.data);
+          this.toastr.success('Item removed from your cart.');
+        }),
+      );
   }
 
-  addProductToCart(id: string): Observable<IaddToCartResponse> {
-    return this._httpClient
-      .post<IaddToCartResponse>(`${environment.baseUrl}/api/v1/cart`, {
+  addProductToCart(id: string): Observable<IcrudCartResponse> {
+    return this.http
+      .post<IcrudCartResponse>(`${environment.baseUrl}/api/v1/cart`, {
         productId: id,
       })
       .pipe(
         tap((res) => {
-          this.cartNumber.set(res.numOfCartItems);
+          this._cart.set(res.data);
+          this._cartNumber.set(res.numOfCartItems);
+          this.toastr.success('Item added to your cart.');
         }),
       );
   }
-  updateSpecificProduct(id: string, count: number): Observable<any> {
-    return this._httpClient.put(`${environment.baseUrl}/api/v1/cart/${id}`, {
-      count: count,
-    });
+
+  updateSpecificProduct(
+    id: string,
+    count: number,
+  ): Observable<IcrudCartResponse> {
+    return this.http
+      .put<IcrudCartResponse>(`${environment.baseUrl}/api/v1/cart/${id}`, {
+        count,
+      })
+      .pipe(
+        tap((res) => {
+          this._cart.set(res.data);
+          this._cartNumber.set(res.numOfCartItems);
+          this.toastr.success('Your cart item count has been updated.');
+        }),
+      );
   }
-  getProductsCart(): Observable<any> {
-    return this._httpClient.get(`${environment.baseUrl}/api/v1/cart`);
-  }
-  deleteSpecificCartItem(id: string): Observable<any> {
-    return this._httpClient.delete(`${environment.baseUrl}/api/v1/cart/${id}`);
-  }
-  clearCart(): Observable<any> {
-    return this._httpClient.delete(`${environment.baseUrl}/api/v1/cart`);
+  clearCart(): Observable<IcrudCartResponse> {
+    return this.http
+      .delete<IcrudCartResponse>(`${environment.baseUrl}/api/v1/cart`)
+      .pipe(
+        tap((res) => {
+          this._cart.set(null);
+          this._cartNumber.set(res.numOfCartItems ?? 0);
+          this.toastr.success('Cart cleared successfully.');
+        }),
+      );
   }
 }

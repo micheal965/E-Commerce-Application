@@ -18,13 +18,9 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ProductComponent {
   private readonly _cartService = inject(CartService);
-  private readonly _toastr = inject(ToastrService);
   product = input.required<IProduct>();
 
   addToCart(id: string): void {
-    this._cartService.addProductToCart(id).subscribe({
-      next: (res) => this._toastr.success(res.message),
-      error: (err) => this._toastr.error(err.message),
-    });
+    this._cartService.addProductToCart(id).subscribe();
   }
 }

@@ -3,12 +3,17 @@ import { inject } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { finalize } from 'rxjs';
 
+let activeRequests = 0;
+
 export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
   const ngxSpinnerService = inject(NgxSpinnerService);
-
+  activeRequests++;
   ngxSpinnerService.show();
 
-  return next(req).pipe(finalize(() => {
-    ngxSpinnerService.hide();
-  }));
+  return next(req).pipe(
+    finalize(() => {
+      activeRequests--;
+      if (activeRequests == 0) ngxSpinnerService.hide();
+    }),
+  );
 };

@@ -11,8 +11,19 @@ import { Router } from '@angular/router';
 export class AuthService {
   private readonly _httpClient = inject(HttpClient);
   private readonly _router = inject(Router);
+  private userIdSignal = signal<string | null>(null);
   userData: any = null;
 
+  constructor() {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decoded = jwtDecode<{ id: string }>(token);
+      this.userIdSignal.set(decoded.id);
+    }
+  }
+  userId() {
+    return this.userIdSignal();
+  }
   setRegisterForm(data: object): Observable<any> {
     return this._httpClient.post(
       `${environment.baseUrl}/api/v1/auth/signup`,
