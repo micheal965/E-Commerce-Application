@@ -1,6 +1,7 @@
 import { BlankLayoutComponent } from './Layouts/blank-layout/blank-layout.component';
 import { AuthLayoutComponent } from './Layouts/auth-layout/auth-layout.component';
 import { Routes } from '@angular/router';
+
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';

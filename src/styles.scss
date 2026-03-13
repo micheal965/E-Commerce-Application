@@ -1,15 +1,15 @@
-/* You can add global styles to this file, and also import other style files */
 @import url("https://fonts.googleapis.com/css2?family=Encode+Sans+Expanded:wght@300&display=swap");
 
-@import 'ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
-@import 'ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
+@import "ngx-owl-carousel-o/lib/styles/scss/owl.carousel";
+@import "ngx-owl-carousel-o/lib/styles/scss/owl.theme.default";
 // regular style toast
-@import 'ngx-toastr/toastr';
+@import "ngx-toastr/toastr";
 
 :root {
   --main-color: rgba(1, 51, 80, 0.994);
   --light-color: #d4d4d446;
-  --shadow: rgba(145, 158, 171, 0.2) 0px 2px 4px -1px,
+  --shadow:
+    rgba(145, 158, 171, 0.2) 0px 2px 4px -1px,
     rgba(145, 158, 171, 0.14) 0px 4px 5px 0px,
     rgba(145, 158, 171, 0.12) 0px 1px 10px 0px;
   --font-family: "Encode Sans Expanded", sans-serif;
@@ -66,7 +66,8 @@ a:hover {
 .bg-main-light {
   background-color: var(--light-color) !important;
 }
-.btn-main,.btn-add {
+.btn-main,
+.btn-add {
   background-color: var(--main-color);
   padding: 7px 20px;
   border: 1px solid #ccc;
@@ -82,7 +83,7 @@ a:hover {
   background-color: #ccc;
 }
 
-.btn-main:hover{
+.btn-main:hover {
   color: #fff;
 }
 
@@ -91,17 +92,17 @@ a:hover {
   overflow: hidden;
 }
 .btn-add::before {
-  content: '';
+  content: "";
   width: 50px;
   height: 50px;
   background-color: rgba(151, 180, 253, 0.574);
   position: absolute;
-  bottom:0;
+  bottom: 0;
   transform: translateX(-550%) skewX(-50deg);
   transition: all 0.9s;
 }
 .btn-add:hover::before {
-  transform: translateX(550%)  skewX(-50deg);
+  transform: translateX(550%) skewX(-50deg);
 }
 
 // Carousel
@@ -114,36 +115,36 @@ a:hover {
 
 //Card
 .product-container:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .title {
-    border-bottom: 2px solid rgba(4, 88, 113, 0.994);
+  border-bottom: 2px solid rgba(4, 88, 113, 0.994);
 }
 
-.fixed-size{
-    height: 300px;
+.fixed-size {
+  height: 300px;
 }
 
 .card {
-    overflow: hidden;
-    transition: all 0.3s ease;
+  overflow: hidden;
+  transition: all 0.3s ease;
 }
 
 .card:hover {
-    transform: scale(1.04);
+  transform: scale(1.04);
 }
 
 .btn-add {
-    transform: translateY(120%);
-    transition: transform .5s ease;
+  transform: translateY(120%);
+  transition: transform 0.5s ease;
 }
 
 .card:hover .btn-add {
-    transform: translate(0);
+  transform: translate(0);
 }
 
 //Categories
 .cat-img {
-    height: 300px;
+  height: 300px;
 }
