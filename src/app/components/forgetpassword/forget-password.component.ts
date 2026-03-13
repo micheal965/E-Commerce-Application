@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { NgSwitch, NgSwitchCase } from '@angular/common';
-import { VerifyEmailStepComponent } from './verifyEmailStep/verifyEmailStep.component';
 import { VerifyCodeStepComponent } from './verifyCodeStep/verifyCodeStep.component';
+import { VerifyEmailStepComponent } from './verifyEmailStep/verifyEmailStep.component';
 import { ResetPasswordStepComponent } from './resetPasswordStep/resetPasswordStep.component';
+import { NgSwitch, NgSwitchCase } from '@angular/common';
 
 @Component({
-  selector: 'app-forgetPassword',
+  selector: 'app-forget-password',
   standalone: true,
   imports: [
     NgSwitch,
@@ -14,9 +14,10 @@ import { ResetPasswordStepComponent } from './resetPasswordStep/resetPasswordSte
     VerifyCodeStepComponent,
     ResetPasswordStepComponent,
   ],
-  templateUrl: './forgetPassword.component.html',
+  templateUrl: './forget-password.component.html',
+  styleUrl: './forget-password.component.scss',
 })
-export class ForgetpasswordComponent {
+export class ForgetPasswordComponent {
   step: number = 1;
   email: string = '';
 }

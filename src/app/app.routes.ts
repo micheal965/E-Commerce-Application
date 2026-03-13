@@ -8,7 +8,7 @@ import { HomeComponent } from './components/home/home.component';
 import { authGuard } from './core/guards/auth.guard';
 import { guestGuard } from './core/guards/guest.guard';
 import { ProductsComponent } from './components/products/products.component';
-import { ForgetpasswordComponent } from './components/forgetpassword/forgetPassword.component';
+import { ForgetPasswordComponent } from './components/forgetpassword/forget-password.component';
 
 export const routes: Routes = [
   {
@@ -21,7 +21,7 @@ export const routes: Routes = [
       { path: 'register', component: RegisterComponent, title: 'Register' },
       {
         path: 'forgetpassword',
-        component: ForgetpasswordComponent,
+        component: ForgetPasswordComponent,
         title: 'Forget Password',
       },
     ],
